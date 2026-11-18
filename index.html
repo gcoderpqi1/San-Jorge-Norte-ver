@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ✏️ EDITA AQUÍ: nombre del colegio (aparece en la pestaña, el menú y el pie de página) -->
+<title>Colegio San Jorge Norte — Ver Notas</title>
+<style>
+/* ============================================================
+   COLEGIO NUEVO HORIZONTE — estilos.css
+   Paleta: azul institucional + rojo, sobre blanco/crema.
+   Tipografía: Fraunces (display) + Inter (texto) + IBM Plex Mono (datos).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root{
+  --verde-oscuro: #142A54;
+  --verde-medio:  #21406F;
+  --verde-tinte:  #E8ECF4;
+  --dorado:       #9E2A3C;
+  --dorado-claro: #C9636F;
+  --crema:        #FAF9F7;
+  --blanco:       #FFFFFF;
+  --carbon:       #1B2033;
+  --carbon-suave: #565A6C;
+  --linea:        #DADDE6;
+  --rojo-alerta:  #C0392B;
+  --verde-ok:     #3C6E52;
+
+  --fuente-display: "Fraunces", serif;
+  --fuente-texto:   "Inter", sans-serif;
+  --fuente-datos:   "IBM Plex Mono", monospace;
+
+  --radio: 10px;
+  --sombra: 0 12px 32px rgba(22, 48, 42, 0.14);
+  --transicion: 180ms ease;
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html{ scroll-behavior: smooth; }
+body{
+  margin: 0;
+  background: var(--crema);
+  color: var(--carbon);
+  font-family: var(--fuente-texto);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg{ display:block; max-width:100%; }
+a{ color: inherit; }
+button{ font-family: inherit; cursor: pointer; }
+:focus-visible{ outline: 2px solid var(--dorado); outline-offset: 3px; }
+
+h1,h2,h3,h4{
+  font-family: var(--fuente-display);
+  font-weight: 600;
+  margin: 0 0 .5em;
+  letter-spacing: -0.01em;
+  color: var(--verde-oscuro);
+}
+p{ margin: 0 0 1em; color: var(--carbon-suave); }
+
+.envoltura{ max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-family: var(--fuente-texto);
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--dorado);
+  margin-bottom: .9em;
+}
+.eyebrow::before{
+  content:""; width: 18px; height: 1px; background: var(--dorado);
+}
+
+/* ---------- Emblema / escudo (elemento de firma) ---------- */
+.emblema{ display:inline-flex; align-items:center; justify-content:center; }
+.emblema svg{ width: 100%; height: 100%; }
+
+/* ============ NAV ============ */
+.nav-colegio{
+  position: sticky; top:0; z-index: 40;
+  background: rgba(20,42,84,0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(158,42,60,0.35);
+}
+.nav-interior{
+  max-width: 1120px; margin:0 auto; padding: 14px 28px;
+  display:flex; align-items:center; justify-content:space-between; gap: 18px;
+}
+.nav-marca{ display:flex; align-items:center; gap:12px; }
+.nav-marca .emblema{ width:36px; height:36px; }
+.nav-marca .texto-marca{ display:flex; flex-direction:column; line-height:1.1; }
+.nav-marca .texto-marca strong{
+  font-family: var(--fuente-display); color: var(--blanco); font-size: 1.02rem; font-weight:600;
+}
+.nav-marca .texto-marca span{
+  font-size: .68rem; letter-spacing:.08em; color: var(--dorado-claro); text-transform: uppercase;
+}
+.nav-enlaces{ display:flex; align-items:center; gap: 26px; }
+.nav-enlaces a{
+  color: rgba(250,249,247,0.82); text-decoration:none; font-size:.9rem; font-weight:500;
+  transition: color var(--transicion);
+}
+.nav-enlaces a:hover{ color: var(--dorado-claro); }
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+  padding: 11px 22px; border-radius: 999px; border: 1px solid transparent;
+  font-weight: 600; font-size: .88rem; letter-spacing: .01em;
+  transition: transform var(--transicion), background var(--transicion), border-color var(--transicion), color var(--transicion);
+  text-decoration:none;
+}
+.btn:active{ transform: translateY(1px); }
+.btn-dorado{ background: var(--dorado); color: var(--verde-oscuro); }
+.btn-dorado:hover{ background: var(--dorado-claro); }
+.btn-contorno-claro{ background: transparent; border-color: rgba(201,99,111,0.6); color: var(--dorado-claro); }
+.btn-contorno-claro:hover{ border-color: var(--dorado-claro); background: rgba(201,99,111,0.08); }
+.btn-verde{ background: var(--verde-oscuro); color: var(--blanco); }
+.btn-verde:hover{ background: var(--verde-medio); }
+.btn-fantasma{ background: transparent; border-color: var(--linea); color: var(--carbon-suave); }
+.btn-fantasma:hover{ border-color: var(--verde-oscuro); color: var(--verde-oscuro); }
+.btn-ancho{ width:100%; }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+/* ============ HERO ============ */
+.hero{
+  background: linear-gradient(180deg, var(--verde-oscuro) 0%, #0D1B36 100%);
+  color: var(--crema);
+  padding: 96px 0 110px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after{
+  content:""; position:absolute; inset:0;
+  background-image: repeating-linear-gradient(180deg, rgba(201,99,111,0.045) 0 1px, transparent 1px 44px);
+  pointer-events:none;
+}
+.hero-interior{ position:relative; z-index:1; max-width: 720px; }
+.hero .emblema{ width:64px; height:64px; margin-bottom: 28px; }
+.hero h1{
+  color: var(--blanco); font-size: clamp(2.1rem, 4vw, 3.4rem);
+  line-height: 1.12; margin-bottom: .4em;
+}
+.hero h1 em{ font-style: italic; color: var(--dorado-claro); }
+.hero .subrayado{
+  font-size: 1.08rem; color: rgba(250,249,247,0.78); max-width: 540px; margin-bottom: 2em;
+}
+.hero-acciones{ display:flex; gap:14px; flex-wrap:wrap; }
+.hero-meta{
+  margin-top: 56px; display:flex; gap: 36px; flex-wrap:wrap;
+  border-top: 1px solid rgba(201,99,111,0.25); padding-top: 26px;
+}
+.hero-meta div strong{ display:block; font-family: var(--fuente-display); color: var(--dorado-claro); font-size:1.3rem; }
+.hero-meta div span{ font-size:.78rem; color: rgba(250,249,247,0.65); text-transform:uppercase; letter-spacing:.06em; }
+
+/* ============ SECCIONES INSTITUCIONALES ============ */
+.seccion{ padding: 86px 0; }
+.seccion-tinte{ background: var(--verde-tinte); }
+.seccion-cabecera{ max-width: 620px; margin-bottom: 44px; }
+.seccion-cabecera h2{ font-size: clamp(1.6rem, 2.6vw, 2.15rem); }
+
+.grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items:start; }
+
+.tarjeta-doc{
+  background: var(--blanco);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 30px 32px;
+  position: relative;
+}
+.tarjeta-doc::before{
+  content:""; position:absolute; left:0; top: 22px; bottom: 22px; width: 3px;
+  background: var(--dorado);
+  border-radius: 2px;
+}
+.tarjeta-doc h3{ font-size: 1.2rem; }
+
+.valores-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.valor{
+  background: var(--blanco); border:1px solid var(--linea); border-radius: var(--radio);
+  padding: 24px 20px;
+}
+.valor .num{ font-family: var(--fuente-datos); color: var(--dorado); font-size:.78rem; }
+.valor h4{ font-size: 1.02rem; margin: .5em 0 .35em; }
+.valor p{ font-size: .88rem; margin:0; }
+
+/* ============ FOOTER ============ */
+.pie-colegio{
+  background: var(--verde-oscuro); color: rgba(250,249,247,0.75);
+  padding: 46px 0 30px;
+}
+.pie-interior{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+.pie-interior .emblema{ width:30px; height:30px; }
+.pie-marca{ display:flex; align-items:center; gap:12px; color: var(--blanco); font-family: var(--fuente-display); }
+.pie-colegio small{ font-size:.78rem; color: rgba(250,249,247,0.5); }
+
+/* ============ OVERLAY / MODALES ============ */
+.overlay{
+  position: fixed; inset:0; background: rgba(10,16,28,0.62);
+  display:flex; align-items:center; justify-content:center;
+  padding: 24px; z-index: 100;
+  opacity:0; pointer-events:none; transition: opacity 200ms ease;
+}
+.overlay.abierto{ opacity:1; pointer-events:auto; }
+.overlay[hidden]{ display:none; }
+
+.panel-login{
+  background: var(--blanco); border-radius: 14px; box-shadow: var(--sombra);
+  width: 100%; max-width: 400px; padding: 38px 34px 30px; position:relative;
+  border-top: 4px solid var(--dorado);
+}
+.panel-login .emblema{ width:44px; height:44px; margin: 0 auto 14px; }
+.panel-login h2{ text-align:center; font-size: 1.35rem; margin-bottom:.2em; }
+.panel-login .sub{ text-align:center; font-size:.86rem; color: var(--carbon-suave); margin-bottom: 26px; }
+.cerrar-x{
+  position:absolute; top:16px; right:16px; background:none; border:none;
+  width:30px; height:30px; border-radius:50%; color: var(--carbon-suave);
+  display:flex; align-items:center; justify-content:center; font-size:1.1rem;
+}
+.cerrar-x:hover{ background: var(--verde-tinte); color: var(--verde-oscuro); }
+
+.campo{ margin-bottom: 18px; }
+.campo label{
+  display:block; font-size:.74rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color: var(--verde-oscuro); margin-bottom: 7px;
+}
+.campo input, .campo select{
+  width:100%; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--linea);
+  background: var(--crema); font-family: var(--fuente-texto); font-size: .96rem; color: var(--carbon);
+  transition: border-color var(--transicion), background var(--transicion);
+}
+.campo input:focus, .campo select:focus{ border-color: var(--dorado); background: var(--blanco); outline:none; }
+.mensaje-error{
+  display:none; background: #F7E9E6; border: 1px solid rgba(192,57,43,0.35); color: var(--rojo-alerta);
+  font-size: .85rem; padding: 10px 12px; border-radius: 8px; margin-bottom: 16px;
+}
+.mensaje-error.visible{ display:block; }
+.pista-credenciales{
+  margin-top: 18px; font-size: .78rem; color: var(--carbon-suave); text-align:center;
+  border-top: 1px dashed var(--linea); padding-top: 14px;
+}
+.pista-credenciales code{ background: var(--verde-tinte); padding: 1px 6px; border-radius:4px; font-family: var(--fuente-datos); }
+
+/* ============ BOLETÍN (vista de notas del alumno) ============ */
+.franja-sesion{
+  background: var(--verde-oscuro); color: var(--crema);
+}
+.franja-sesion .envoltura{
+  padding-top:16px; padding-bottom:16px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+.franja-sesion span{ font-size:.86rem; color: rgba(250,249,247,0.75); }
+.franja-sesion strong{ color: var(--dorado-claro); }
+
+.boletin-envoltura{ padding: 56px 0 90px; }
+.boletin{
+  background: var(--blanco); border: 1px solid var(--linea); border-radius: 14px;
+  overflow: hidden; box-shadow: var(--sombra); position: relative;
+}
+.boletin-marca-agua{
+  position:absolute; right: -40px; top: -40px; width: 260px; height:260px; opacity: .05; z-index:0;
+}
+.boletin-cabecera{
+  background: var(--verde-oscuro); color: var(--crema);
+  padding: 30px 34px; display:flex; justify-content:space-between; gap: 20px; flex-wrap:wrap;
+  position:relative; z-index:1;
+}
+.boletin-cabecera .emblema{ width:38px; height:38px; margin-bottom:10px; }
+.boletin-titulo{ font-family: var(--fuente-display); font-size:1.4rem; color: var(--blanco); margin:0; }
+.boletin-titulo span{ display:block; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color: var(--dorado-claro); margin-bottom:6px; }
+.boletin-datos-alumno{ display:flex; gap: 30px; flex-wrap:wrap; }
+.boletin-datos-alumno div span{ display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color: rgba(250,249,247,0.55); margin-bottom:3px; }
+.boletin-datos-alumno div strong{ font-family: var(--fuente-datos); font-size:.95rem; color: var(--blanco); font-weight:500; }
+
+.tabla-notas{ width:100%; border-collapse: collapse; position:relative; z-index:1; }
+.tabla-notas thead th{
+  text-align:left; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+  color: var(--carbon-suave); padding: 14px 34px; border-bottom: 1px solid var(--linea);
+}
+.tabla-notas thead th.col-num, .tabla-notas td.col-num{ text-align:center; }
+.tabla-notas tbody td{
+  padding: 15px 34px; border-bottom: 1px solid var(--linea); font-size:.92rem;
+}
+.tabla-notas tbody tr:last-child td{ border-bottom:none; }
+.tabla-notas tbody tr:hover{ background: var(--verde-tinte); }
+.tabla-notas .nota{ font-family: var(--fuente-datos); font-weight:600; text-align:center; }
+.tabla-notas .nota.vacia{ color: var(--linea); font-weight:400; }
+.tabla-notas .nota.baja{ color: var(--rojo-alerta); }
+.tabla-notas .nota.buena{ color: var(--verde-ok); }
+.tabla-notas .promedio{ font-family: var(--fuente-datos); font-weight:700; text-align:center; color: var(--verde-oscuro); }
+
+/* ---------- Pie de tabla: promedio general por trimestre + promedio final (plus) ---------- */
+.tabla-notas tfoot td{ padding: 15px 34px; font-size:.92rem; }
+.tabla-notas tfoot tr.fila-promedio-general{ background: var(--verde-tinte); }
+.tabla-notas tfoot tr.fila-promedio-general td{ border-bottom: 1px solid var(--linea); font-weight:600; }
+.tabla-notas tfoot tr.fila-promedio-final td{
+  background: var(--verde-oscuro); color: var(--blanco); font-family: var(--fuente-display); font-weight:600; font-size:1rem;
+}
+.tabla-notas tfoot tr.fila-promedio-final td.promedio{ color: var(--dorado-claro); font-family: var(--fuente-datos); font-weight:700; font-size:1.05rem; }
+
+.boletin-pie{
+  padding: 18px 34px 26px; font-size:.78rem; color: var(--carbon-suave);
+  border-top: 1px dashed var(--linea);
+}
+
+/* ============ PANEL DEL PROFESOR (subir-notas.html) ============ */
+.pagina-profesor{ min-height:100vh; display:flex; flex-direction:column; }
+.franja-profesor{
+  background: var(--verde-oscuro); color:var(--blanco);
+}
+.franja-profesor .envoltura{
+  padding: 18px 28px; display:flex; align-items:center; justify-content:space-between; gap: 16px; flex-wrap:wrap;
+}
+.franja-profesor .nav-marca .texto-marca span{ color: var(--dorado-claro); }
+
+.pantalla-login-profesor{
+  flex:1; display:flex; align-items:center; justify-content:center; padding: 40px 20px;
+  background: radial-gradient(circle at 50% 0%, var(--verde-tinte), var(--crema) 60%);
+}
+
+.contenido-profesor{ flex:1; padding: 44px 0 80px; }
+.cabecera-vista{ display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom: 30px; }
+.cabecera-vista h1{ font-size: 1.7rem; margin-bottom:.15em; }
+.cabecera-vista p{ margin:0; font-size:.92rem; }
+
+.grid-cursos{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.tarjeta-curso{
+  background: var(--blanco); border:1px solid var(--linea); border-radius: 14px;
+  padding: 30px 26px; text-align:left; transition: border-color var(--transicion), transform var(--transicion), box-shadow var(--transicion);
+}
+.tarjeta-curso:hover{ border-color: var(--dorado); transform: translateY(-3px); box-shadow: var(--sombra); }
+.tarjeta-curso .num-curso{
+  font-family: var(--fuente-datos); color: var(--dorado); font-size:.78rem; display:block; margin-bottom: 14px;
+}
+.tarjeta-curso h3{ font-size: 1.25rem; margin-bottom: 6px; }
+.tarjeta-curso span.cant{ font-size:.84rem; color: var(--carbon-suave); }
+
+.barra-superior-lista{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom: 22px; flex-wrap:wrap; }
+.volver{
+  display:inline-flex; align-items:center; gap:6px; background:none; border:none; color: var(--verde-oscuro);
+  font-weight:600; font-size:.88rem; padding: 4px 0;
+}
+.volver:hover{ color: var(--dorado); }
+.buscador{ position:relative; flex:1; max-width: 360px; min-width: 220px; }
+.buscador input{
+  width:100%; padding: 11px 14px 11px 38px; border-radius: 999px; border:1px solid var(--linea);
+  background: var(--blanco); font-size:.92rem;
+}
+.buscador input:focus{ border-color: var(--dorado); outline:none; }
+.buscador svg{ position:absolute; left:13px; top:50%; transform:translateY(-50%); width:16px; height:16px; opacity:.5; }
+
+.lista-alumnos{ display:flex; flex-direction:column; gap: 10px; }
+.fila-alumno{
+  display:flex; align-items:center; justify-content:space-between; gap: 16px;
+  background: var(--blanco); border:1px solid var(--linea); border-radius: 10px;
+  padding: 15px 20px; text-align:left; width:100%;
+  transition: border-color var(--transicion), background var(--transicion);
+}
+.fila-alumno:hover{ border-color: var(--dorado); background: var(--verde-tinte); }
+.fila-alumno .info-izq{ display:flex; align-items:center; gap: 14px; }
+.avatar-inicial{
+  width: 40px; height:40px; border-radius:50%; background: var(--verde-oscuro); color: var(--dorado-claro);
+  display:flex; align-items:center; justify-content:center; font-family: var(--fuente-display); font-size:1rem; flex-shrink:0;
+}
+.fila-alumno .nombre-alumno{ font-weight:600; color: var(--verde-oscuro); font-size:.96rem; }
+.fila-alumno .id-alumno{ font-family: var(--fuente-datos); font-size:.78rem; color: var(--carbon-suave); }
+.fila-alumno .cantidad-notas{ font-size:.78rem; color: var(--carbon-suave); white-space:nowrap; }
+.fila-alumno .flecha{ opacity:.4; width:16px; height:16px; flex-shrink:0; }
+.sin-resultados{ text-align:center; padding: 40px 0; color: var(--carbon-suave); font-size:.92rem; }
+
+/* ---------- Modal grande: ficha del alumno ---------- */
+.overlay-ficha{ align-items: flex-start; overflow-y:auto; padding: 40px 20px; }
+.ficha-alumno{
+  background: var(--blanco); border-radius: 14px; box-shadow: var(--sombra);
+  width: 100%; max-width: 640px; margin: auto; position:relative; overflow:hidden;
+}
+.ficha-cabecera{
+  background: var(--verde-oscuro); color:var(--crema); padding: 28px 30px; position:relative;
+}
+.ficha-cabecera .cerrar-x{ color: rgba(250,249,247,0.75); }
+.ficha-cabecera .cerrar-x:hover{ background: rgba(201,99,111,0.15); color: var(--dorado-claro); }
+.ficha-cabecera .eyebrow{ color: var(--dorado-claro); }
+.ficha-cabecera .eyebrow::before{ background: var(--dorado-claro); }
+.ficha-nombre{ color: var(--blanco); font-size: 1.5rem; margin-bottom: 14px; }
+.ficha-meta{ display:flex; gap: 30px; flex-wrap:wrap; }
+.ficha-meta div span{ display:block; font-size:.68rem; text-transform:uppercase; letter-spacing:.08em; color: rgba(250,249,247,0.55); margin-bottom:3px; }
+.ficha-meta div strong{ font-family: var(--fuente-datos); color: var(--blanco); font-weight:500; font-size:.95rem; }
+
+.ficha-cuerpo{ padding: 26px 30px 30px; }
+.ficha-seccion{ margin-bottom: 26px; }
+.ficha-seccion h4{
+  font-family: var(--fuente-texto); font-size:.74rem; text-transform:uppercase; letter-spacing:.08em;
+  color: var(--carbon-suave); font-weight:700; margin-bottom: 14px;
+}
+
+.tabla-registradas{ width:100%; border-collapse:collapse; font-size:.87rem; }
+.tabla-registradas th{
+  text-align:left; padding: 8px 10px; font-size:.68rem; text-transform:uppercase; color: var(--carbon-suave);
+  border-bottom: 1px solid var(--linea);
+}
+.tabla-registradas td{ padding: 10px 10px; border-bottom: 1px solid var(--linea); }
+.tabla-registradas tr.fila-clicable{ cursor:pointer; transition: background var(--transicion); }
+.tabla-registradas tr.fila-clicable:hover{ background: var(--verde-tinte); }
+.tabla-registradas .nota-mono{ font-family: var(--fuente-datos); font-weight:600; }
+.vacio-notas{ font-size:.85rem; color: var(--carbon-suave); padding: 14px 0; }
+
+.form-nota{ background: var(--verde-tinte); border-radius: 10px; padding: 20px 20px 6px; }
+.form-nota .grid-form{ display:grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.form-nota .campo-full{ grid-column: 1 / -1; }
+.editando-aviso{
+  display:none; font-size:.78rem; color: var(--dorado); background: rgba(158,42,60,0.12);
+  border: 1px solid rgba(158,42,60,0.35); border-radius:8px; padding:8px 12px; margin-bottom:14px;
+  align-items:center; justify-content:space-between; gap:10px;
+}
+.editando-aviso.visible{ display:flex; }
+.editando-aviso button{ background:none; border:none; color: var(--dorado); font-size:.76rem; font-weight:700; text-decoration:underline; }
+
+.toast{
+  position: fixed; bottom: 26px; left:50%; transform: translateX(-50%) translateY(20px);
+  background: var(--verde-oscuro); color: var(--blanco); padding: 13px 22px; border-radius: 999px;
+  font-size:.88rem; display:flex; align-items:center; gap:9px; box-shadow: var(--sombra);
+  opacity:0; pointer-events:none; transition: opacity 220ms ease, transform 220ms ease; z-index: 200;
+}
+.toast.mostrar{ opacity:1; transform: translateX(-50%) translateY(0); }
+.toast svg{ width:16px; height:16px; color: var(--dorado-claro); flex-shrink:0; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 860px){
+  .nav-enlaces{ display:none; }
+  .grid-2{ grid-template-columns: 1fr; }
+  .valores-grid{ grid-template-columns: 1fr 1fr; }
+  .grid-cursos{ grid-template-columns: 1fr; }
+  .boletin-cabecera{ flex-direction:column; }
+  .form-nota .grid-form{ grid-template-columns: 1fr; }
+}
+@media (max-width: 520px){
+  .valores-grid{ grid-template-columns: 1fr; }
+  .hero{ padding: 70px 0 80px; }
+  .boletin-cabecera, .tabla-notas thead th, .tabla-notas tbody td{ padding-left:20px; padding-right:20px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; scroll-behavior:auto !important; }
+}
+
+</style>
+</head>
+<body>
+
+<div id="vistaLanding">
+
+  <nav class="nav-colegio">
+    <div class="nav-interior envoltura">
+      <div class="nav-marca">
+        <span class="emblema"></span>
+        <div class="texto-marca"><strong>San Jorge Norte</strong><span>Santa Cruz · Bolivia</span></div>
+      </div>
+      <div class="nav-enlaces">
+        <a href="#nosotros">Quiénes somos</a>
+        <a href="#vision">Visión y misión</a>
+        <a href="#valores">Valores</a>
+      </div>
+      <button class="btn btn-dorado" id="btnAbrirLogin">Ver notas</button>
+    </div>
+  </nav>
+
+  <!-- ✏️ EDITA AQUÍ: título, bajada y estadísticas de la portada -->
+  <header class="hero">
+    <div class="envoltura hero-interior">
+      <span class="emblema"></span>
+      <span class="eyebrow">Colegio privado · Fundado en 1998</span>
+      <h1>Acompañamos a cada niña y niño con <em>carácter</em>, desde sus primeros pasos.</h1>
+      <p class="subrayado">Educación primaria bilingüe en Santa Cruz de la Sierra, con acompañamiento cercano a cada familia y bases académicas sólidas.</p>
+      <div class="hero-acciones">
+        <button class="btn btn-dorado" id="btnAbrirLogin2">Ver mis notas</button>
+        <a href="#nosotros" class="btn btn-contorno-claro">Conocer el colegio</a>
+      </div>
+      <div class="hero-meta">
+        <div><strong>27</strong><span>Años de trayectoria</span></div>
+        <div><strong>6</strong><span>Cursos de primaria</span></div>
+        <div><strong>10</strong><span>Materias</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ✏️ EDITA AQUÍ: texto "Quiénes somos" y los números del colegio -->
+  <section class="seccion" id="nosotros">
+    <div class="envoltura grid-2">
+      <div>
+        <span class="eyebrow">Quiénes somos</span>
+        <h2>Una comunidad educativa cruceña, desde 1998</h2>
+        <p>Somos una institución privada cruceña que acompaña a niñas y niños desde 1998, con un modelo que combina bases académicas sólidas, bilingüismo y acompañamiento cercano a cada familia. Nuestras aulas reúnen a un cuerpo docente estable, dedicado a formar el camino que cada estudiante sigue después en la secundaria.</p>
+        <p>Hoy atendemos los seis cursos de primaria, con planes de ampliar la oferta en los próximos periodos.</p>
+      </div>
+      <div class="tarjeta-doc">
+        <h3>El colegio en números</h3>
+        <p style="margin-bottom:.4em"><strong style="color:var(--verde-oscuro)">1998</strong> — Año de fundación</p>
+        <p style="margin-bottom:.4em"><strong style="color:var(--verde-oscuro)">6</strong> — Cursos de primaria activos</p>
+        <p style="margin-bottom:.4em"><strong style="color:var(--verde-oscuro)">10</strong> — Materias en el plan de estudios</p>
+        <p style="margin-bottom:0"><strong style="color:var(--verde-oscuro)">100%</strong> — Boletines digitales por trimestre</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ EDITA AQUÍ: Visión y Misión -->
+  <section class="seccion seccion-tinte" id="vision">
+    <div class="envoltura grid-2">
+      <div class="tarjeta-doc">
+        <h3>Visión</h3>
+        <p>Ser reconocidos en Santa Cruz como el colegio que forma, desde la niñez, personas capaces de pensar con rigor, actuar con ética y adaptarse a un mundo cambiante, sin perder de vista su identidad cruceña.</p>
+      </div>
+      <div class="tarjeta-doc">
+        <h3>Misión</h3>
+        <p>Brindar una educación primaria de excelencia, bilingüe y personalizada, que desarrolle pensamiento crítico, disciplina y valores, sentando bases sólidas para la etapa de secundaria y para la vida.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✏️ EDITA AQUÍ: los 4 valores del colegio -->
+  <section class="seccion" id="valores">
+    <div class="envoltura">
+      <div class="seccion-cabecera">
+        <span class="eyebrow">Lo que nos guía</span>
+        <h2>Nuestros valores</h2>
+      </div>
+      <div class="valores-grid">
+        <div class="valor"><span class="num">01</span><h4>Excelencia</h4><p>Exigimos el máximo esfuerzo, con acompañamiento real, no solo con exigencia.</p></div>
+        <div class="valor"><span class="num">02</span><h4>Integridad</h4><p>Formamos personas que actúan igual cuando nadie las mira.</p></div>
+        <div class="valor"><span class="num">03</span><h4>Comunidad</h4><p>Familias, docentes y estudiantes como una sola red de apoyo.</p></div>
+        <div class="valor"><span class="num">04</span><h4>Curiosidad</h4><p>Enseñamos a hacer preguntas, no solo a repetir respuestas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pie-colegio">
+    <div class="envoltura pie-interior">
+      <div class="pie-marca"><span class="emblema"></span><span>San Jorge Norte</span></div>
+      <small>© 2026 Colegio San Jorge Norte — Santa Cruz de la Sierra, Bolivia</small>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Overlay: login de estudiante -->
+<div class="overlay" id="overlayLogin" hidden>
+  <div class="panel-login">
+    <button class="cerrar-x" id="btnCerrarLogin" type="button" aria-label="Cerrar">✕</button>
+    <span class="emblema"></span>
+    <h2>Ver notas</h2>
+    <p class="sub">Ingresa con tu usuario y contraseña de estudiante</p>
+    <div class="mensaje-error" id="errorLogin">Usuario o contraseña incorrectos.</div>
+    <form id="formLogin">
+      <div class="campo">
+        <label for="usuarioAlumno">Usuario</label>
+        <input type="text" id="usuarioAlumno" autocomplete="username" required>
+      </div>
+      <div class="campo">
+        <label for="claveAlumno">Contraseña</label>
+        <input type="password" id="claveAlumno" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-verde btn-ancho">Ingresar</button>
+    </form>
+    <div class="pista-credenciales">¿No tienes usuario y contraseña? Pídeselos a tu profesor.</div>
+  </div>
+</div>
+
+<!-- Vista: boletín del alumno logueado -->
+<div id="vistaBoletin" hidden>
+  <div class="franja-sesion">
+    <div class="envoltura">
+      <span>Sesión de estudiante: <strong id="nombreSesion"></strong></span>
+      <button class="btn btn-fantasma" id="btnCerrarSesion">Cerrar sesión</button>
+    </div>
+  </div>
+  <div class="boletin-envoltura">
+    <div class="envoltura">
+      <div class="boletin" id="contenedorBoletin"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+/* ============================================================
+   Colegio San Jorge Norte — Ver Notas
+   Conectado a Firebase Firestore: los alumnos y sus notas ya
+   NO viven en este archivo, viven en la nube y se leen desde acá.
+   ============================================================ */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+import {
+  getFirestore, collection, getDocs
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDHIbiNzAdH_EcT9YAAh9vWrCKxcvjgUcg",
+  authDomain: "chicken-proyect.firebaseapp.com",
+  projectId: "chicken-proyect",
+  storageBucket: "chicken-proyect.firebasestorage.app",
+  messagingSenderId: "444257955247",
+  appId: "1:444257955247:web:fbd537d27fdcae2532135a",
+  measurementId: "G-XG69V2XFQP"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ============================================================
+   Protección contra conexiones colgadas: si Firestore no responde
+   en TIEMPO_ESPERA_MS, la operación se da por fallida (en vez de
+   dejar el login o el boletín cargando para siempre) y se puede
+   reintentar.
+   ============================================================ */
+const TIEMPO_ESPERA_MS = 9000;
+
+function conTiempoLimite(promesa) {
+  return Promise.race([
+    promesa,
+    new Promise((_, reject) => setTimeout(() => {
+      const err = new Error("Firestore no respondió a tiempo.");
+      err.code = "tiempo-agotado";
+      reject(err);
+    }, TIEMPO_ESPERA_MS))
+  ]);
+}
+
+function mensajeDeError(err, mensajeGenerico) {
+  if (err && err.code === "tiempo-agotado") {
+    return "Firestore no respondió a tiempo. Revisa tu conexión a internet e intenta de nuevo.";
+  }
+  if (err && err.code === "permission-denied") {
+    return "No se pudo conectar con la base de datos (permisos). Avísale al profesor.";
+  }
+  return mensajeGenerico;
+}
+
+/* ============================================================
+   ✏️  EDITA AQUÍ: información del colegio y del plan de estudios
+   Todo lo que está en este bloque se puede cambiar directamente.
+   ============================================================ */
+
+/* Materias del colegio (se usan solo para armar la tabla del boletín).
+   Agrega, quita o renombra materias tocando esta lista. */
+const MATERIAS = [
+  "Comunicación y Lenguaje",
+  "Matemática",
+  "Ciencias Naturales",
+  "Ciencias Sociales",
+  "Valores, Espiritualidad y Religiones",
+  "Educación Física y Deportes",
+  "Educación Musical",
+  "Artes Plásticas y Visuales",
+  "Computación",
+  "Inglés"
+];
+
+/* Nombres de los 3 trimestres del año escolar */
+const TRIMESTRES = ["1er Trimestre", "2do Trimestre", "3er Trimestre"];
+
+/* ============================================================
+   Fin del bloque editable
+   ============================================================ */
+
+/* ---------- Caché en memoria de alumnos (se llena desde Firestore) ---------- */
+let ALUMNOS = [];
+
+/** Siempre trae la lista más reciente de Firestore (con límite de tiempo
+    incluido). No se guarda "para siempre" en memoria para evitar mostrar
+    una copia vieja si un profesor cambió algo mientras la página estaba
+    abierta. */
+async function cargarAlumnos() {
+  const snap = await conTiempoLimite(getDocs(collection(db, "alumnos")));
+  ALUMNOS = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  return ALUMNOS;
+}
+
+async function notasDeAlumno(alumnoId) {
+  const snap = await conTiempoLimite(getDocs(collection(db, "alumnos", alumnoId, "notas")));
+  const resultado = [];
+  snap.docs.forEach(d => {
+    const data = d.data();
+    const materias = data.materias || {};
+    Object.keys(materias).forEach(materia => {
+      resultado.push({ trimestre: data.trimestre, materia, nota: materias[materia] });
+    });
+  });
+  return resultado;
+}
+
+/* ---------- Emblema institucional (sello, elemento de firma visual) ----------
+   Para poner el escudo/foto REAL del colegio en vez de este sello dibujado:
+   reemplaza todo el contenido de este string por un <img>, por ejemplo:
+
+   const EMBLEMA_SVG = `<img src="URL_DE_TU_IMAGEN" alt="Escudo San Jorge Norte"
+     style="width:100%;height:100%;object-fit:contain;border-radius:50%;">`;
+
+   La URL puede ser un link a una imagen ya subida a internet, o un data:URI en
+   base64 si querés que la imagen quede adentro de este mismo archivo (sin
+   depender de ningún link externo). Se actualiza en TODO el sitio a la vez,
+   porque este mismo texto se inyecta en cada lugar donde aparece el emblema. */
+const EMBLEMA_SVG = `<img src="512.png" alt="Escudo San Jorge Norte"
+     style="width:100%;height:100%;object-fit:contain;border-radius:50%;">`;
+
+function inyectarEmblemas() {
+  document.querySelectorAll(".emblema").forEach(el => { el.innerHTML = EMBLEMA_SVG; });
+}
+document.addEventListener("DOMContentLoaded", inyectarEmblemas);
+
+/* Traemos la lista de alumnos apenas carga la página, en segundo plano */
+cargarAlumnos().catch(err => console.error("No se pudo cargar alumnos:", err));
+
+/* ============================================================
+   Login de estudiante + boletín de calificaciones
+   ============================================================ */
+const vistaLanding      = document.getElementById("vistaLanding");
+const vistaBoletin       = document.getElementById("vistaBoletin");
+const overlayLogin       = document.getElementById("overlayLogin");
+const formLogin          = document.getElementById("formLogin");
+const errorLogin         = document.getElementById("errorLogin");
+const nombreSesion       = document.getElementById("nombreSesion");
+const contenedorBoletin  = document.getElementById("contenedorBoletin");
+const MENSAJE_ERROR_DEFAULT = "Usuario o contraseña incorrectos.";
+
+function abrirOverlayLogin() {
+  errorLogin.textContent = MENSAJE_ERROR_DEFAULT;
+  errorLogin.classList.remove("visible");
+  formLogin.reset();
+  overlayLogin.hidden = false;
+  requestAnimationFrame(() => overlayLogin.classList.add("abierto"));
+  document.getElementById("usuarioAlumno").focus();
+}
+
+function cerrarOverlayLogin() {
+  overlayLogin.classList.remove("abierto");
+  setTimeout(() => { overlayLogin.hidden = true; }, 180);
+}
+
+document.getElementById("btnAbrirLogin").addEventListener("click", abrirOverlayLogin);
+document.getElementById("btnAbrirLogin2").addEventListener("click", abrirOverlayLogin);
+document.getElementById("btnCerrarLogin").addEventListener("click", cerrarOverlayLogin);
+
+overlayLogin.addEventListener("click", (e) => {
+  if (e.target === overlayLogin) cerrarOverlayLogin();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && overlayLogin.classList.contains("abierto")) cerrarOverlayLogin();
+});
+
+formLogin.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const usuario = document.getElementById("usuarioAlumno").value.trim().toLowerCase();
+  const clave = document.getElementById("claveAlumno").value;
+
+  const boton = formLogin.querySelector("button[type=submit]");
+  const textoOriginal = boton.textContent;
+  boton.disabled = true;
+  boton.textContent = "Verificando…";
+  errorLogin.classList.remove("visible");
+
+  try {
+    await cargarAlumnos(); // siempre trae el dato más reciente antes de validar el login
+    const alumno = ALUMNOS.find(a => a.usuario.toLowerCase() === usuario && a.clave === clave);
+
+    if (!alumno) {
+      errorLogin.textContent = MENSAJE_ERROR_DEFAULT;
+      errorLogin.classList.add("visible");
+      return;
+    }
+
+    cerrarOverlayLogin();
+    vistaLanding.hidden = true;
+    vistaBoletin.hidden = false;
+    nombreSesion.textContent = alumno.nombre;
+    await renderBoletin(alumno);
+    try {
+      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    } catch (err) {
+      window.scrollTo(0, 0);
+    }
+  } catch (err) {
+    console.error(err);
+    errorLogin.textContent = mensajeDeError(err, "No se pudo conectar. Revisa tu internet e intenta de nuevo.");
+    errorLogin.classList.add("visible");
+  } finally {
+    boton.disabled = false;
+    boton.textContent = textoOriginal;
+  }
+});
+
+document.getElementById("btnCerrarSesion").addEventListener("click", () => {
+  vistaBoletin.hidden = true;
+  vistaLanding.hidden = false;
+});
+
+/* ---------- Render del boletín ---------- */
+function clasificarNota(valor) {
+  if (valor === null) return "vacia";
+  return valor >= 51 ? "buena" : "baja";
+}
+
+/** Calcula el promedio general de cada trimestre (promedio de todas las
+    materias que tengan nota registrada en ese trimestre) y, si los 3
+    trimestres tienen promedio, el promedio final del año (promedio de
+    esos 3 promedios), tal como se calcula habitualmente en el colegio. */
+function calcularPromediosGenerales(notas) {
+  const porTrimestre = TRIMESTRES.map(tri => {
+    const valores = MATERIAS
+      .map(m => notas.find(n => n.materia === m && n.trimestre === tri))
+      .filter(Boolean)
+      .map(n => n.nota);
+    return valores.length ? (valores.reduce((a, b) => a + b, 0) / valores.length) : null;
+  });
+  const completos = porTrimestre.filter(v => v !== null);
+  const final = completos.length === TRIMESTRES.length
+    ? (completos.reduce((a, b) => a + b, 0) / TRIMESTRES.length)
+    : null;
+  return { porTrimestre, final };
+}
+
+function formatoPromedio(v) {
+  return v === null ? "—" : v.toFixed(1);
+}
+
+async function renderBoletin(alumno) {
+  contenedorBoletin.innerHTML = `<p class="vacio-notas" style="padding:34px;">Cargando notas…</p>`;
+  let notas;
+  try {
+    notas = await notasDeAlumno(alumno.id);
+  } catch (err) {
+    console.error(err);
+    contenedorBoletin.innerHTML = `<p class="vacio-notas" style="padding:34px;">${mensajeDeError(err, "No se pudieron cargar las notas. Revisa tu internet.")}</p>`;
+    return;
+  }
+
+  const filas = MATERIAS.map(materia => {
+    const porTrimestre = TRIMESTRES.map(tri => {
+      const registro = notas.find(n => n.materia === materia && n.trimestre === tri);
+      return registro ? registro.nota : null;
+    });
+
+    const conValor = porTrimestre.filter(v => v !== null);
+    const promedio = conValor.length === TRIMESTRES.length
+      ? (conValor.reduce((a, b) => a + b, 0) / TRIMESTRES.length).toFixed(1)
+      : null;
+
+    const celdas = porTrimestre.map(v => {
+      const clase = clasificarNota(v);
+      return `<td class="col-num nota ${clase}">${v === null ? "—" : v}</td>`;
+    }).join("");
+
+    return `
+      <tr>
+        <td>${materia}</td>
+        ${celdas}
+        <td class="col-num promedio">${promedio === null ? "—" : promedio}</td>
+      </tr>`;
+  }).join("");
+
+  const { porTrimestre, final } = calcularPromediosGenerales(notas);
+
+  contenedorBoletin.innerHTML = `
+    <span class="emblema boletin-marca-agua"></span>
+    <div class="boletin-cabecera">
+      <div>
+        <span class="emblema"></span>
+        <p class="boletin-titulo"><span>Boletín de calificaciones</span>Colegio San Jorge Norte</p>
+      </div>
+      <div class="boletin-datos-alumno">
+        <div><span>Estudiante</span><strong>${alumno.nombre}</strong></div>
+        <div><span>ID</span><strong>${alumno.id}</strong></div>
+        <div><span>RUDE</span><strong>${alumno.rude}</strong></div>
+        <div><span>Curso</span><strong>${alumno.curso}</strong></div>
+      </div>
+    </div>
+    <table class="tabla-notas">
+      <thead>
+        <tr>
+          <th>Materia</th>
+          <th class="col-num">1er Trim.</th>
+          <th class="col-num">2do Trim.</th>
+          <th class="col-num">3er Trim.</th>
+          <th class="col-num">Promedio</th>
+        </tr>
+      </thead>
+      <tbody>${filas}</tbody>
+      <tfoot>
+        <tr class="fila-promedio-general">
+          <td>Promedio general del trimestre</td>
+          <td class="col-num promedio">${formatoPromedio(porTrimestre[0])}</td>
+          <td class="col-num promedio">${formatoPromedio(porTrimestre[1])}</td>
+          <td class="col-num promedio">${formatoPromedio(porTrimestre[2])}</td>
+          <td class="col-num">—</td>
+        </tr>
+        <tr class="fila-promedio-final">
+          <td colspan="4">Promedio final del año</td>
+          <td class="col-num promedio">${formatoPromedio(final)}</td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="boletin-pie">Nota mínima de aprobación: 51/100. Las notas se actualizan apenas el docente las registra.</div>
+  `;
+
+  inyectarEmblemas();
+}
+</script>
+</body>
+</html>
